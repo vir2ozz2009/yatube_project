@@ -15,7 +15,7 @@ def index(request):
         'posts': posts,
     }
     return render(request, 'posts/index.html', context) 
-
+    
 
 def group_posts(request, slug):
     # Функция get_object_or_404 получает по заданным критериям объект 
