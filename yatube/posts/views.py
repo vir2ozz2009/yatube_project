@@ -1,16 +1,14 @@
+"""Функции отображения страниц."""
+
 from django.shortcuts import render, get_object_or_404
-# Импортируем модель, чтобы обратиться к ней
 from .models import Post, Group
 
 
 def index(request):
-    # Одна строка вместо тысячи слов на SQL:
-    # в переменную posts будет сохранена выборка из 10 объектов модели Post,
-    # отсортированных по полю pub_date по убыванию (от больших значений к меньшим)
+    """Функция главной страницы."""
     posts = Post.objects.order_by('-pub_date')[:10]
     title = 'Главная страница'
     text = 'Последние обновления на сайте'
-    # В словаре context отправляем информацию в шаблон
     context = {
         'title': title,
         'posts': posts,
@@ -20,17 +18,11 @@ def index(request):
 
 
 def group_posts(request, slug):
-    # Функция get_object_or_404 получает по заданным критериям объект 
-    # из базы данных или возвращает сообщение об ошибке, если объект не найден.
-    # В нашем случае в переменную group будут переданы объекты модели Group,
-    # поле slug у которых соответствует значению slug в запросе
+    """Функция страницы группы."""
     group = get_object_or_404(Group, slug=slug)
     template = 'posts/group_list.html'
     title = f'Группа {slug}'
     text = f'Страница группы {slug}'
-    # Метод .filter позволяет ограничить поиск по критериям.
-    # Это аналог добавления
-    # условия WHERE group_id = {group_id}
     posts = Post.objects.filter(group=group).order_by('-pub_date')[:10]
     context = {
         'group': group,
@@ -38,4 +30,4 @@ def group_posts(request, slug):
         'title': title,
         'text': text
     }
-    return render(request, template, context) 
+    return render(request, template, context)
