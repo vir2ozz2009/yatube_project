@@ -9,13 +9,15 @@ def index(request):
     # отсортированных по полю pub_date по убыванию (от больших значений к меньшим)
     posts = Post.objects.order_by('-pub_date')[:10]
     title = 'Главная страница'
+    text = 'Последние обновления на сайте'
     # В словаре context отправляем информацию в шаблон
     context = {
         'title': title,
         'posts': posts,
+        'text': text
     }
-    return render(request, 'posts/index.html', context) 
-    
+    return render(request, 'posts/index.html', context)
+
 
 def group_posts(request, slug):
     # Функция get_object_or_404 получает по заданным критериям объект 
